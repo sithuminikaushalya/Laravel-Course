@@ -1,0 +1,3 @@
+<h1>Hello, Welcome to my Laravel Course</h1>
+<p>In this course, you will learn the fundamentals of Laravel, one of the most popular PHP frameworks for web development. We will cover everything from setting up your environment to building dynamic web applications with ease. Whether you're a beginner or looking to enhance your skills, this course is designed to guide you step by step.</p>
+<p>We will explore key concepts such as routing, controllers, models, and views. You will also learn how to work with databases, manage user authentication, and implement advanced features to make your application robust and scalable. Get ready to dive into the world of Laravel and build powerful web applications!</p>
