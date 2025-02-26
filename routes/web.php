@@ -22,6 +22,10 @@ Route::view('/about', 'about'); // view function is used to return view
 //     return "Product id: $id";
 // });
 
-Route::get('/product/{category?}' , function(string $category = null) {
-    return "Product for category= $category";
-});
+// Route::get('/product/{category?}' , function(string $category = null) {
+//     return "Product for category= $category";
+// });
+
+Route::get('/product/{id}', function(string $id) {
+    return "Works! $id";
+}) ->whereNumber('id');
