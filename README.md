@@ -1,66 +1,170 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Routing Basics
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This repository provides examples and explanations of basic routing in Laravel. Routing is a core feature of Laravel that allows you to define how your application responds to client requests.
 
-## About Laravel
+## Table of Contents
+1. [Basic Routing](#basic-routing)
+2. [Available Request Methods](#available-request-methods)
+3. [Route Matching Multiple Methods](#route-matching-multiple-methods)
+4. [Route Matching All Methods](#route-matching-all-methods)
+5. [Redirect Routes](#redirect-routes)
+6. [View Routes](#view-routes)
+7. [Route Required Parameters](#route-required-parameters)
+8. [Route Optional Parameters](#route-optional-parameters)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Basic Routing
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The simplest form of routing in Laravel is defining a route that responds to a specific URI and returns a view or response.
 
-## Learning Laravel
+```php
+Route::get('/about', function() {
+    return view('about');
+});
+```
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Available Request Methods
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Laravel provides several request methods to handle different types of HTTP requests:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```php
+Route::get($uri, $callback);     // Get the information
+Route::post($uri, $callback);    // Create new information
+Route::put($uri, $callback);     // Full update (replaces resource)
+Route::patch($uri, $callback);   // Partial update (modifies specific fields)
+Route::delete($uri, $callback);  // Delete the information
+Route::options($uri, $callback); // Get more information about the resource
+```
+---
 
-## Laravel Sponsors
+## Route Matching Multiple Methods
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+You can define a route that responds to multiple HTTP methods using Route::match().
 
-### Premium Partners
+```php
+Route::match(['get', 'post'], '/', function () {
+    return "This route responds to both GET and POST requests.";
+});
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+## Route Matching All Methods
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+If you want a route to respond to all HTTP request methods, you can use Route::any().
 
-## Code of Conduct
+```php
+Route::any('/', function () {
+    return "This route responds to all HTTP request methods.";
+});
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## Redirect Routes
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Laravel provides a simple way to redirect one URI to another using Route::redirect().
 
-## License
+```php
+// Basic redirect
+Route::redirect('/home', '/');
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+// Permanent redirect with 301 status code
+Route::redirect('/home', '/', 301);
+
+// Alternative way for permanent redirect
+Route::permanentRedirect('/home', '/');
+```
+
+---
+
+### View Routes
+
+You can return a view directly using Route::view() without needing a controller or closure.
+
+```php
+// Basic view route
+Route::view('/contact', 'contact');
+
+// View route with data passed to the view
+Route::view('/contact', 'contact', ['phone' => '+995557123456']);
+```
+
+---
+
+## Route Required Parameters
+
+Laravel routes can accept required parameters, which are passed to the callback function.
+
+```php
+Route::get('/product/{id}', function (string $id) {
+    return "Product ID = $id";
+});
+```
+
+Matches the following URLs:
+
+/product/1
+/product/test
+/product/{any_string}
+
+```php
+Route::get(
+    '{lang}/product/{id}/review/{reviewId}', 
+    function (string $lang, string $id, string $reviewId) {
+        return "Language = $lang, Product ID = $id, Review ID = $reviewId";
+    }
+);
+```
+
+Matches the following URLs:
+
+/en/product/1/review/123
+/ka/product/test/review/foo
+/{any_string}/product/{any_string}/review/{any_string}
+
+---
+
+## Route Optional Parameters
+
+You can make route parameters optional by appending a ? to the parameter name and providing a default value.
+
+```php
+Route::get('/product/{category?}', function (string $category = null) {
+    return "Product for category = $category";
+});
+```
+
+Matches the following URLs:
+
+/product/
+/product/electronics
+/product/{any_string}
+
+---
+
+## Route Parameter Validation
+
+You can constrain the format of route parameters using regular expressions.
+
+```php
+// Only allows numeric values for id
+Route::get('/product/{id}', function (int $id) {
+    return "Product ID = $id";
+})->where('id', '[0-9]+');
+
+// Multiple parameter constraints
+Route::get('/product/{category}/{id}', function (string $category, int $id) {
+    return "Category = $category, Product ID = $id";
+})->where(['category' => '[a-z]+', 'id' => '[0-9]+']);
+```
+
+Examples of constraints:
+
+[0-9]+: Only numeric values
+[a-z]+: Only lowercase letters
+[A-Za-z]+: Both uppercase and lowercase letters
+
+
