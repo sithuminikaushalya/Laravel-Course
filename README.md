@@ -148,23 +148,115 @@ Matches the following URLs:
 ## Route Parameter Validation
 
 You can constrain the format of route parameters using regular expressions.
+1. 
 
 ```php
-// Only allows numeric values for id
-Route::get('/product/{id}', function (int $id) {
-    return "Product ID = $id";
-})->where('id', '[0-9]+');
+Route::get('/product/{id}', function(string $id) {
+    return "Works! $id";
+}) ->whereNumber('id');
+```
+Matches the following URLs
 
-// Multiple parameter constraints
-Route::get('/product/{category}/{id}', function (string $category, int $id) {
-    return "Category = $category, Product ID = $id";
-})->where(['category' => '[a-z]+', 'id' => '[0-9]+']);
+- `/product/1`
+- `/product/01234`
+- `/product/56789`
+
+Does not match
+
+- `/product/test`
+- `/product/123test`
+- `/product/test123`
+
+2.
+
+```php
+Route::get('/user/{username}', function(string $username) {
+    
+}) ->whereAlpha('username');
 ```
 
-Examples of constraints:
+Matches the following URLs
 
-[0-9]+: Only numeric values
-[a-z]+: Only lowercase letters
-[A-Za-z]+: Both uppercase and lowercase letters
+- `/user/zura`
+- `/user/thecodeholic`
+- `/user/ZURA`
+
+Does not match
+
+- `/user/zura123`
+- `/user/123ZURA`
+
+3.
+
+```php
+Route::get('/user/{username}', function(string $username) {
+    
+}) ->whereAlphaNumeric('username');
+```
+
+Matches the following URLs
+
+- `/user/zura123`
+- `/user/123thecodeholic`
+- `/user/ZURA123`
+
+Does not match
+
+- `/user/zura.123`
+- `/user/123_ZURA`
+- `/user/123-ZURA`
+
+4.
+
+```php
+Route::get('{lang}/product/{id}', function(string $ulang, string $id) {
+    
+}) ->whereAlpha('lang'); // only uppercase and lowercase letters
+   ->whereNumber('id')   // only digits
+;
+```
+
+Matches the following URLs
+
+- `/en/product/123`
+- `/k/product/456`
+- `/test/product/01234`
+
+Does not match
+
+- `/en/product/123abc`
+- `/ka/product/abc456`
+- `/en123/producct/01234`
+
+5. 
+
+```php
+Route::get('{lang}/products', function(string $ulang) {
+    
+})->whereIn("lang",["en","ka","in"]);
+```
+
+Matches the following URLs
+
+- `/en/products`
+- `/ka/products`
+- `/in/products`
+
+Does not match
+
+- `/de/products`
+- `/es/products`
+- `/test/products`
+
+---
+
+## Route Parameter Regex
+
+
+
+
+
+
+
 
 
