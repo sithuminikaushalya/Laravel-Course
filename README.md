@@ -379,6 +379,64 @@ php artisan route:list --only-vendor
 
 php artisan route:list --path=api
 
+### `php artisan route:list`
+📌 **Description:**  
+Lists all registered routes in your Laravel application.  
+Shows basic details like HTTP method, URI, associated controller, and route name.
+
+💡 **Comment:**  
+This is the most commonly used command for checking defined routes.  
+If a route is missing or incorrectly named, this command helps verify it.
+
+### `php artisan route:list -v`
+📌 **Description:**  
+The `-v` (verbose) flag provides more details about each route.  
+It includes middleware, namespace, and other internal route details.
+
+💡 **Comment:**  
+Useful when debugging middleware-related issues.  
+Helps check if a specific route is being protected by middleware (e.g., `auth`).
+
+### `php artisan route:list --except-vendor`
+📌 **Description:**  
+Excludes vendor-provided routes (like those from Laravel packages).  
+Shows only application-defined routes.
+
+💡 **Comment:**  
+Useful when you only want to focus on the routes you've created.  
+Helps declutter the route list by removing package-generated routes.
+
+### `php artisan route:list --only-vendor`
+📌 **Description:**  
+Displays only vendor-provided routes (routes from Laravel packages).  
+Opposite of `--except-vendor`.
+
+💡 **Comment:**  
+Helpful for checking which routes are added by installed packages (like `passport`, `sanctum`, or `nova`).  
+Can be used to debug package-related issues.
+
+### `php artisan route:list --path=api`
+📌 **Description:**  
+Filters the route list to only show routes that include `"api"` in their path.
+
+💡 **Comment:**  
+Useful when working with API routes defined in `routes/api.php`.  
+Helps focus on API-related issues without being distracted by web routes.
+
+
+### `php artisan route:list -v --except-vendor --path=admin`
+📌 **Description:**  
+Combines multiple filters:  
+- `-v`: Shows detailed information.  
+- `--except-vendor`: Hides package routes.  
+- `--path=admin`: Filters routes to only show those containing `"admin"` in the path.
+
+💡 **Comment:**  
+This is useful for debugging routes related to an admin panel.  
+Helps check if the admin routes exist and are correctly defined.  
+Excludes package routes, making it easier to focus on application-specific admin routes.
+
+
 php artisan route:list -v --except-vendor --path=admin
 ```
 
