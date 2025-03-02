@@ -438,8 +438,5 @@ Helps check if the admin routes exist and are correctly defined.
 Excludes package routes, making it easier to focus on application-specific admin routes.
 
 
-php artisan route:list -v --except-vendor --path=admin
-```
-
 
 
