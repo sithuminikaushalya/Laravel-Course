@@ -12,6 +12,10 @@ This repository provides examples and explanations of basic routing in Laravel. 
 7. [Route Required Parameters](#route-required-parameters)
 8. [Route Optional Parameters](#route-optional-parameters)
 9. [Route Parameter Regex](#route-parameter-regex)
+10. [Named Routes](#named-routes)
+11. [Name Routes with Parameters](#named-routes-with-parameters)
+12. [Route Groups](#route-groups)
+13. [View Registered Routes with Artisan](#view-registered-routes-with-artisan)
 
 ---
 
@@ -278,9 +282,105 @@ Route::get('/search/{search}', function(string $search) {
 
 ---
 
+## Named Routes
 
+```php
+Route::get('/', function() {
+    $aboutPageUrl = route('about');
+    dd($aboutPageUrl);
+    return view('welcome');
+});
 
+Route::view('/about', 'about');
+```
 
+---
+
+## Name Routes with Parameters
+
+1.
+
+```php
+Route::get('/{lang}/product/{id}', function (string $lang, string $id) {
+    return "Product ID: $id in Language: $lang";
+})->where(['id' => '\d+'])->name("product.view");
+
+Route::get('/', function () {
+    $productUrl = route('product.view', ['lang' => 'en', 'id' => 1]);
+    dd($productUrl); // Outputs: "/en/product/1"
+
+    return view('welcome');
+});
+```
+
+2.
+
+```php
+Route::get('/', function() {
+    return view('welcome');
+});
+
+Route::get('/user/profile', function(){})->name('profile');
+
+Route::get('/current-user', function(){
+    return to_route('profile');
+});
+```
+
+---
+
+## Route Groups
+
+If we want to define routes with the same prefix, we can do this in the following way.
+
+```php
+Route::prefix('admin')->group(function () {
+  Route::get('/users', function () {
+    return '/admin/users';
+  });
+});
+```
+
+In the same way, we can define a prefix for the root name.
+
+```php
+Route::name('admin.')->group(function () {
+  Route::get('/users', function () {
+    return '/users'; // But the route name is "admin.users"
+  })->name('users');
+});
+```
+
+---
+
+## Fallback Routes
+
+When the route is not matched, Laravel will show a 404 error.
+For this issue, we will call the fallback providing function, executed every time a route is not matched.
+
+```php
+Route::fallback(function() {
+  return 'Falback';
+});
+```
+
+---
+
+## View Registered Routes with Artisan
+
+```php
+php artisan route:list
+
+php artisan route:list -v
+
+php artisan route:list --except-vendor
+
+php artisan route:list --only-vendor
+
+php artisan route:list --path=api
+
+php artisan route:list -v --except-vendor --path=admin
+```
 
 
 
