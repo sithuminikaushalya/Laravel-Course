@@ -11,6 +11,7 @@ This repository provides examples and explanations of basic routing in Laravel. 
 6. [View Routes](#view-routes)
 7. [Route Required Parameters](#route-required-parameters)
 8. [Route Optional Parameters](#route-optional-parameters)
+9. [Route Parameter Regex](#route-parameter-regex)
 
 ---
 
@@ -252,7 +253,30 @@ Does not match
 
 ## Route Parameter Regex
 
+1. User route with name validation (only lowercase letters)
 
+```php
+Route::get('/user/{name}', function(string $name) {
+    return "User name: $name";
+})->where('name', '[a-z]+');
+```
+
+2. Multi-condition route (language and product ID)
+
+```php
+Route::get("{lang}/product/{id}", function(string $lang, string $id) {
+})->where(['lang' => '[a-z]{2}', 'id'=> '\d{4,}']);
+```
+
+3. Search route (matches any input)
+
+```php
+Route::get('/search/{search}', function(string $search) {
+    return $search;
+})->where('search','.+');
+```
+
+---
 
 
 
