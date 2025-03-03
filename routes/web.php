@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CarController;
 use Illuminate\Support\Facades\Route;
 
 // Default route with sample data
@@ -57,7 +58,13 @@ Route::prefix('admin')->group(function () {
 // fallback
 Route::fallback(function() {
     return 'Falback';
-  });
+});
+
+Route::get('car', [CarController::class, 'index']);
+
+// Route::get('/sum/{a}/{b}', function(float $a, float $b) {
+//     return $a + $b;
+// })->whereNumber(['a', 'b']);
 
 // Route::get('/product/{id}', function(string $id) {
 //     return "Product id: $id";
