@@ -16,6 +16,7 @@ This repository provides examples and explanations of basic routing in Laravel. 
 11. [Name Routes with Parameters](#named-routes-with-parameters)
 12. [Route Groups](#route-groups)
 13. [View Registered Routes with Artisan](#view-registered-routes-with-artisan)
+14. [Route Caching](#route-caching)
 
 ---
 
@@ -437,6 +438,22 @@ This is useful for debugging routes related to an admin panel.
 Helps check if the admin routes exist and are correctly defined.  
 Excludes package routes, making it easier to focus on application-specific admin routes.
 
+---
 
+## Route Caching
 
+Once we deploy our Laravel project on production, it is recommended that we execute the following command. 
+This will create a cache version of the Laravel application. This will be useful, if our application has a lot of routes. 
+
+Cache will help our application to match the routes in a shorter time. This will increase the overall performance of our website.
+
+```php
+php artisan route:cache
+```
+
+If we don't want this cache anymore, we can clear this always by following the command.
+
+```php
+php artisan route:clear
+```
 
